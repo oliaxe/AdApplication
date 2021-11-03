@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Ads">
+          <Key>
+            <PropertyRef Name="AdID" />
+          </Key>
+          <Property Name="AdID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="CategoryName" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="Title" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="Information" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="Price" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="CategoryName" />
+          </Key>
+          <Property Name="CategoryName" Type="nchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Password" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="Address" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="Username" Type="nchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Ads_Categories">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="Ads" Type="Self.Ads" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CategoryName" />
+            </Principal>
+            <Dependent Role="Ads">
+              <PropertyRef Name="CategoryName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ads_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Ads" Type="Self.Ads" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Username" />
+            </Principal>
+            <Dependent Role="Ads">
+              <PropertyRef Name="Username" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Ads" EntityType="Self.Ads" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Ads_Categories" Association="Self.FK_Ads_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Ads" EntitySet="Ads" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ads_Users" Association="Self.FK_Ads_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Ads" EntitySet="Ads" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Ads">
+          <Key>
+            <PropertyRef Name="AdID" />
+          </Key>
+          <Property Name="AdID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="CategoryName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Information" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Categories" Relationship="Self.FK_Ads_Categories" FromRole="Ads" ToRole="Categories" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Ads_Users" FromRole="Ads" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="CategoryName" />
+          </Key>
+          <Property Name="CategoryName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Ads" Relationship="Self.FK_Ads_Categories" FromRole="Categories" ToRole="Ads" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Ads" Relationship="Self.FK_Ads_Users" FromRole="Users" ToRole="Ads" />
+        </EntityType>
+        <Association Name="FK_Ads_Categories">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="Ads" Type="Self.Ads" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CategoryName" />
+            </Principal>
+            <Dependent Role="Ads">
+              <PropertyRef Name="CategoryName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ads_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Ads" Type="Self.Ads" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Username" />
+            </Principal>
+            <Dependent Role="Ads">
+              <PropertyRef Name="Username" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AD_ApplicationEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Ads" EntityType="Self.Ads" />
+          <EntitySet Name="Categories" EntityType="Self.Categories" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK_Ads_Categories" Association="Self.FK_Ads_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Ads" EntitySet="Ads" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ads_Users" Association="Self.FK_Ads_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Ads" EntitySet="Ads" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="AD_ApplicationEntities">
+          <EntitySetMapping Name="Ads">
+            <EntityTypeMapping TypeName="Model.Ads">
+              <MappingFragment StoreEntitySet="Ads">
+                <ScalarProperty Name="AdID" ColumnName="AdID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Information" ColumnName="Information" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="Model.Categories">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Model.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
